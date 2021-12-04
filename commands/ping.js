@@ -6,5 +6,8 @@ export default {
         .setDescription("Replies with pong"),
     execute: function(interaction) {
         interaction.reply("Pong!");
+    },
+    executeText: function(msg, args) {
+        msg.channel.send("Pong!");
     }
 }
