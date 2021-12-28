@@ -19,22 +19,33 @@ export default {
                 file: v,
                 ...imported.default
             };
-        })).then(commands => {
+        })).then(async commands => {
             commands.forEach(command => client.commands.set(command.data.name, command));
 
             const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+
+            const DMs = commands.filter(v => v.DMs);
+            const server = commands.filter(v => !v.DMs);
+
+            try {
+                await rest.put(Routes.applicationCommands(client.user.id), { body: DMs.map(v => v.data.toJSON()) });
+            } catch (error) {
+                console.error(error);
+            }
 
             client.guilds.cache.forEach(async guild => {
                 try {
                     await rest.put(
                         Routes.applicationGuildCommands(client.user.id, guild.id), {
-                            body: commands.map(v => v.data.toJSON())
+                            body: server.map(v => v.data.toJSON())
                         }
                     );
                 } catch (error) {
                     console.error(error);
                 }
             });
+
+            console.log("Commands loaded");
         });
     }
 }

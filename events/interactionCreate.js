@@ -9,6 +9,10 @@ export default {
         if (!command) return;
     
         try {
+            if(!command.DMs && !interaction.guild) {
+                interaction.reply("This command is not intended for direct message use :(");
+                return;
+            }
             command.execute(interaction);
         } catch (error) {
             console.error(error);
