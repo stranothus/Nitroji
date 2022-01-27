@@ -60,7 +60,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
         }
 
         interaction.reply({
-            content: `You saved <${emojiObject.animated ? "a" : ""}:${emojiObject.name}:${emojiObject.id}>! Access it through servers I'm in with \`!${name}!\` in your message`,
+            content: `You saved <${emojiObject.animated ? "a" : ""}:${emojiObject.name}:${emojiObject.id}>! Access it through servers I'm in with \`{${name}}\` in your message`,
             ephemeral: true
         });
     },
@@ -115,7 +115,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
         }
 
         msg.reply({
-            content: `You saved <${emojiObject.animated ? "a" : ""}:${emojiObject.name}:${emojiObject.id}>! Access it through servers I'm in with \`!${name}!\` in your message`
+            content: `You saved <${emojiObject.animated ? "a" : ""}:${emojiObject.name}:${emojiObject.id}>! Access it through servers I'm in with \`{${name}}\` in your message`
         });
     }
 }

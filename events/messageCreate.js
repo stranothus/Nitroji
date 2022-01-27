@@ -1,5 +1,6 @@
  // import packages
- import dirFlat from "../utils/dirFlat.js";
+import dirFlat from "../utils/dirFlat.js";
+import asyncReplace from "../utils/asyncReplace.js";
 
  // the default prefix
 const prefix = "!";
@@ -39,6 +40,8 @@ export default {
                 return;
             }
 
+            if(!index) return;
+
             index.executeText(msg, args);
         } else {
             // check if the message is prefixed with the prefix or a bot ping
@@ -47,6 +50,25 @@ export default {
 			} else if(msg.content.startsWith(`<@!${msg.client.user.id}>`)) {
 				msg.content = msg.content.replace(new RegExp(`^<@!${msg.client.user.id}>\\s*`), "");
 			} else {
+                if(!msg.content.match(/{[^\s!]+}/)) return;
+
+                const emojis = (await db.db("Users").collection("emojis").findOne({ user: msg.member.id })).emojis;
+                const content = await asyncReplace(msg.content, /{([^\s!]+)}/g, async $1 => {
+                    $1 = $1.slice(1, -1);
+
+                    const emoji = emojis.filter(v => v.name.includes($1))[0];
+
+                    if(!emoji || !emoji.id) return $1;
+
+                    const emojiObject = await msg.client.emojis.cache.get(emoji.id);
+
+                    if(!emojiObject || !emojiObject.id) return $1;
+
+                    return `<${emojiObject.animated ? "a" : ""}:${emojiObject.name}:${emojiObject.id}>`;
+                });
+
+                msg.channel.send(content);
+
 				return;
 			}
 
@@ -58,6 +80,8 @@ export default {
             // find and execute the command
             let index = (await commands).findIndex(v => v.data.name === command);
                 index = (await commands)[index];
+
+            if(!index) return;
 
             index.executeText(msg, args);
         }
