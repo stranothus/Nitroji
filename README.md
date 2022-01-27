@@ -43,3 +43,7 @@ A Discord bot might need additional event listeners. This is a simple export
 ## Further development
 
 Adding events and commands is a good start, but you'll also need to add more for larger scale bots. Feel free to edit any existing files. Make sure to read the code comments so you know what you're doing!
+
+## Messed up?
+
+Run `node removeCommands.js` to delete your application's commands in case you made a wrong one. These deletes them from Discord API, not from your files, so the current commands you have will pop back up when you start the bot up again. 
