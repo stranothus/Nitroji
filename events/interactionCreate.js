@@ -1,13 +1,17 @@
+// setup the on interactionCreate event
 export default {
     type: "on",
     name: "interactionCreate",
     execute: interaction => {
+        // only run for commands
         if (!interaction.isCommand()) return;
-    
+        
+        // find the command
         const command = interaction.client.commands.get(interaction.commandName);
     
         if (!command) return;
-    
+        
+        // run the command, checking if it's available in DMs
         try {
             if(!command.DMs && !interaction.guild) {
                 interaction.reply("This command is not intended for direct message use :(");

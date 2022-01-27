@@ -1,5 +1,7 @@
-import fs from "fs";
+ // import packages
+ import fs from "fs";
 
+ // read all files, including those in sub directories, of a directory
 function dirFlat(dir) {
     let stuff = fs.readdirSync(dir).map(v => {
         let start = dir.slice(-1) === "/" ? dir : dir + "/";
