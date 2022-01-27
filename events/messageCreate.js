@@ -1,6 +1,8 @@
  // import packages
 import dirFlat from "../utils/dirFlat.js";
 import asyncReplace from "../utils/asyncReplace.js";
+import { Permissions } from "discord.js";
+import asUser from "../utils/asUser.js";
 
  // the default prefix
 const prefix = "!";
@@ -44,6 +46,8 @@ export default {
 
             index.executeText(msg, args);
         } else {
+            if(!msg.guild.me.permissions.has(Permissions.FLAGS.SEND_MESSAGES) || !msg.guild.me.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return;
+
             // check if the message is prefixed with the prefix or a bot ping
 			if(msg.content.startsWith(prefix)) {
 				msg.content = msg.content.replace(new RegExp("^" + prefix), "");
@@ -54,9 +58,9 @@ export default {
 
                 const emojis = (await db.db("Users").collection("emojis").findOne({ user: msg.member.id })).emojis;
                 const content = await asyncReplace(msg.content, /{([^\s!]+)}/g, async $1 => {
-                    $1 = $1.slice(1, -1);
+                    const text = $1.slice(1, -1);
 
-                    const emoji = emojis.filter(v => v.name.includes($1))[0];
+                    const emoji = emojis.filter(v => v.name.includes(text))[0];
 
                     if(!emoji || !emoji.id) return $1;
 
@@ -67,7 +71,15 @@ export default {
                     return `<${emojiObject.animated ? "a" : ""}:${emojiObject.name}:${emojiObject.id}>`;
                 });
 
-                msg.channel.send(content);
+                if(content === msg.content) return;
+
+                setTimeout(() => {
+                    if(!msg.channel.messages.resolveId(msg.id)) return;
+
+                    msg.delete();
+
+                    asUser(msg.channel, msg.member, content);
+                });
 
 				return;
 			}
