@@ -33,11 +33,13 @@ export default {
 
             index.executeText(msg, args);
         } else {
-            if(msg.content.startsWith(prefix)) {
-                msg.content = msg.content.replace(new RegExp("^" + prefix), "");
-            } else {
-                return;
-            }
+			if(msg.content.startsWith(prefix)) {
+				msg.content = msg.content.replace(new RegExp("^" + prefix), "");
+			} else if(msg.content.startsWith(`<@!${msg.client.user.id}>`)) {
+				msg.content = msg.content.replace(new RegExp(`^<@!${msg.client.user.id}>\\s*`), "");
+			} else {
+				return;
+			}
             var args = msg.content.split(/("[^"]*")|\s+/).filter(v => v).map(v => v.replace(/(?:\"$|^\")/g, ""));
             var command = args[0].toLowerCase();
             args.splice(0, 1);
