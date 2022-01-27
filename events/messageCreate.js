@@ -6,7 +6,7 @@ const prefix = "!";
 
  // load commands
 const commands = Promise.all(dirFlat("./commands").map(async v => {
-    let imported = await import("../" + v);
+    const imported = await import("../" + v);
 
     return {
         command: v.replace(/\.[^\.]+$/, ""),
@@ -25,8 +25,8 @@ export default {
         // if it's in direct messages
         if(!msg.guild) {
             // parse arguments
-            var args = msg.content.split(/("[^"]*")|\s+/).filter(v => v).map(v => v.replace(/(?:\"$|^\")/g, ""));
-            var command = args[0].toLowerCase();
+            let args = msg.content.split(/("[^"]*")|\s+/).filter(v => v).map(v => v.replace(/(?:\"$|^\")/g, ""));
+            const command = args[0].toLowerCase();
             args.splice(0, 1);
 
             // find the command
@@ -51,8 +51,8 @@ export default {
 			}
 
             //  parse arguments
-            var args = msg.content.split(/("[^"]*")|\s+/).filter(v => v).map(v => v.replace(/(?:\"$|^\")/g, ""));
-            var command = args[0].toLowerCase();
+            let args = msg.content.split(/("[^"]*")|\s+/).filter(v => v).map(v => v.replace(/(?:\"$|^\")/g, ""));
+            const command = args[0].toLowerCase();
             args.splice(0, 1);
 
             // find and execute the command

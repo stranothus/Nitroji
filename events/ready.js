@@ -15,7 +15,7 @@ export default {
         
         // load all the commands
         Promise.all(dirFlat("./commands").map(async v => {
-            let imported = await import("../" + v);
+            const imported = await import("../" + v);
         
             return {
                 command: v.replace(/\.[^\.]+$/, ""),
