@@ -5,7 +5,7 @@ export default {
     type: "on",
     name: "interactionCreate",
     execute: interaction => {
-        if(!msg.guild.me.permissions.has(Permissions.FLAGS.SEND_MESSAGES)) return;
+        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.SEND_MESSAGES)) return;
 
         // only run for commands
         if (!interaction.isCommand()) return;

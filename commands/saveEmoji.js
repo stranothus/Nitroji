@@ -14,7 +14,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
             .setDescription("The name to save the emoji as")
             .setRequired(true)
         ),
-    DMs: true,
+    DMs: false,
     execute: async function(interaction) {
         const emoji = interaction.options.getString("emoji").trim();
         const name = interaction.options.getString("name").trim();
