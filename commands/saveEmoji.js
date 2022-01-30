@@ -28,7 +28,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
             return;
         }
 
-        const emojiObject = await interaction.guild.emojis.fetch(emoji.match(/\d{18}/).reverse()[0]);
+        const emojiObject = await interaction.client.emojis.cache.get(emoji.match(/\d{18}/).reverse()[0]);
         const emojisColl = await db.db("Users").collection("emojis");
         const documentExists = await emojisColl.findOne({ user: interaction.member.id });
         const emojiExists = await emojisColl.findOne({ user: interaction.member.id, emojis: { $elemMatch: { $or: [{ id: emojiObject.id }, { name: name }]}}});
@@ -84,7 +84,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
             return;
         }
 
-        const emojiObject = await msg.guild.emojis.fetch(emoji.match(/\d{18}/).reverse()[0]);
+        const emojiObject = await msg.guild.emojis.cache.get(emoji.match(/\d{18}/).reverse()[0]);
         const emojisColl = await db.db("Users").collection("emojis");
         const documentExists = await emojisColl.findOne({ user: msg.member.id });
         const emojiExists = await emojisColl.findOne({ user: msg.member.id, emojis: { $elemMatch: { $or: [{ id: emojiObject.id }, { name: name }]}}});

@@ -24,7 +24,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
         }
 
         const emojiId = emojiExists.emojis.filter(v => v.name === emoji)[0].id;
-        const emojiObject = await interaction.guild.emojis.fetch(emojiId);
+        const emojiObject = await interaction.client.emojis.cache.get(emojiId);
 
         if(!emojiObject || !emojiObject.id) {
             interaction.reply({
@@ -64,7 +64,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
         }
 
         const emojiId = emojiExists.emojis.filter(v => v.name === emoji)[0].id;
-        const emojiObject = await msg.guild.emojis.fetch(emojiId);
+        const emojiObject = await msg.client.emojis.cache.get(emojiId);
 
         if(!emojiObject || !emojiObject.id) {
             msg.reply({
