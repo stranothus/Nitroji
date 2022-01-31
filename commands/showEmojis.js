@@ -9,11 +9,13 @@ import { MessageEmbed } from "discord.js";
     execute: async function(interaction) {
         const user = await db.db("Users").collection("emojis").findOne({ user: interaction.member.id });
 
-        if(!user || !user.emojis) {
+        if(!user || !user.emojis.length) {
             interaction.reply({
                 content: `No saved emojis`,
                 ephemeral: true
             });
+
+            return;
         }
 
         const emojis = (await Promise.all(user.emojis.map(async v => ({
@@ -33,10 +35,12 @@ import { MessageEmbed } from "discord.js";
     executeText: async function(msg, args) {
         const user = await db.db("Users").collection("emojis").findOne({ user: msg.member.id });
 
-        if(!user || !user.emojis) {
+        if(!user || !user.emojis.length) {
             msg.reply({
                 content: `No saved emojis`
             });
+
+            return;
         }
 
         const emojis = (await Promise.all(user.emojis.map(async v => ({
