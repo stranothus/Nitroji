@@ -29,6 +29,16 @@ import { SlashCommandBuilder } from "@discordjs/builders";
         }
 
         const emojiObject = await interaction.client.emojis.cache.get(emoji.match(/\d{18}/).reverse()[0]);
+
+        if(!emojiObject || !emojiObject.id) {
+            interaction.reply({
+                content: "Something went wrong! Make sure you're inputting a valid emoji from a server I'm in",
+                ephemeral: true
+            });
+
+            return;
+        }
+
         const emojisColl = await db.db("Users").collection("emojis");
         const documentExists = await emojisColl.findOne({ user: interaction.member.id });
         const emojiExists = await emojisColl.findOne({ user: interaction.member.id, emojis: { $elemMatch: { $or: [{ id: emojiObject.id }, { name: name }]}}});
@@ -85,6 +95,15 @@ import { SlashCommandBuilder } from "@discordjs/builders";
         }
 
         const emojiObject = await msg.guild.emojis.cache.get(emoji.match(/\d{18}/).reverse()[0]);
+
+        if(!emojiObject || !emojiObject.id) {
+            msg.reply({
+                content: "Something went wrong! Make sure you're inputting a valid emoji from a server I'm in"
+            });
+
+            return;
+        }
+
         const emojisColl = await db.db("Users").collection("emojis");
         const documentExists = await emojisColl.findOne({ user: msg.member.id });
         const emojiExists = await emojisColl.findOne({ user: msg.member.id, emojis: { $elemMatch: { $or: [{ id: emojiObject.id }, { name: name }]}}});
