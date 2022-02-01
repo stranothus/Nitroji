@@ -1,11 +1,11 @@
-import { Permissions } from "discord.js";
+import permissions from "../utils/permissions.js";
 
 // setup the on interactionCreate event
 export default {
     type: "on",
     name: "interactionCreate",
     execute: interaction => {
-        if(!interaction.guild.me.permissions.has(Permissions.FLAGS.SEND_MESSAGES)) return;
+        if(!permissions(interaction.guild.me.permissions)) return;
 
         // only run for commands
         if (!interaction.isCommand()) return;

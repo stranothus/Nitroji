@@ -1,8 +1,8 @@
  // import packages
 import dirFlat from "../utils/dirFlat.js";
 import asyncReplace from "../utils/asyncReplace.js";
-import { Permissions } from "discord.js";
 import asUser from "../utils/asUser.js";
+import permissions from "../utils/permissions.js";
 
  // the default prefix
 const prefix = "!";
@@ -46,7 +46,7 @@ export default {
 
             index.executeText(msg, args);
         } else {
-            if(!msg.guild.me.permissions.has(Permissions.FLAGS.SEND_MESSAGES) || !msg.guild.me.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return;
+            if(!permissions(msg.guild.me.permissions)) return;
 
             // check if the message is prefixed with the prefix or a bot ping
 			if(msg.content.startsWith(prefix)) {

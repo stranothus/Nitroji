@@ -4,8 +4,8 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 export default {
     // setup the slash command format 
     data: new SlashCommandBuilder()
-        .setName("ping")
-        .setDescription("Replies with pong"),
+        .setName("invite")
+        .setDescription("Invite me to your server!"),
     // let it be used in DMs
     DMs: true,
     // execute for slash commands
