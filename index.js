@@ -3,6 +3,7 @@ import discord from "discord.js";
 import dotenv from "dotenv";
 import dirFlat from "./utils/dirFlat.js";
 import { MongoClient } from "mongodb";
+import express from "express";
 
  // load env variables
 dotenv.config();
@@ -47,3 +48,11 @@ Promise.all(dirFlat("./events").map(async v => {
 
  // log the bot in
 client.login(process.env.TOKEN);
+
+const app = express();
+
+app.use((req, res) => {
+	res.send("Server running");
+});
+
+app.listen(3030);
