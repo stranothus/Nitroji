@@ -56,7 +56,9 @@ export default {
 			} else {
                 if(!msg.content.match(/{[^\s!]+}/)) return;
 
-                const emojis = (await db.db("Users").collection("emojis").findOne({ user: msg.member.id })).emojis;
+                const user = await db.db("Users").collection("emojis").findOne({ user: msg.member.id });
+				if(!user) return;
+				const emojis = user.emojis;
                 const content = await asyncReplace(msg.content, /{([^\s!]+)}/g, async $1 => {
                     const text = $1.slice(1, -1);
 
