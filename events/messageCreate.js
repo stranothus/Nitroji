@@ -80,7 +80,7 @@ export default {
 
                     msg.delete();
 
-                    asUser(msg.channel, msg.member, content);
+                    asUser(msg.channel, msg.member, content, msg.attachments);
                 });
 
 				return;

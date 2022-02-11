@@ -1,6 +1,6 @@
 import { Permissions } from "discord.js";
 
-async function asUser(channel, author, content) {
+async function asUser(channel, author, content, files) {
     if(!(channel.guild || channel.parent.guild).me.permissions.has(Permissions.FLAGS.MANAGE_WEBHOOKS)) return;
     
     if(channel.type === "GUILD_PUBLIC_THREAD" || channel.type === "GUILD_PRIVATE_THREAD") {
@@ -15,7 +15,8 @@ async function asUser(channel, author, content) {
                 "users": [],
                 "parse": []
             },
-            "threadId": channel.id
+            "threadId": channel.id,
+            "files": files
         });
     } else {
         let webhook = (await channel.fetchWebhooks()).filter(webhook => webhook.name === channel.client.user.tag).first() || await channel.createWebhook(channel.client.user.tag);
@@ -28,7 +29,8 @@ async function asUser(channel, author, content) {
                 "roles": [],
                 "users": [],
                 "parse": []
-            }
+            },
+            "files": files
         });
     }
 }
