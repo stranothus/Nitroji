@@ -1,5 +1,5 @@
  // import packages and utils
- import { REST } from "@discordjs/rest";
+import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import dirFlat from "../utils/dirFlat.js";
 import discord from "discord.js";
@@ -15,7 +15,7 @@ export default {
         
         // load all the commands
         Promise.all(dirFlat("./commands").map(async v => {
-            const imported = await import("../" + v);
+            const imported = await import("." + v);
         
             return {
                 command: v.replace(/\.[^\.]+$/, ""),
