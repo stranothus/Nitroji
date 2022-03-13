@@ -54,35 +54,35 @@ export default {
 				} else if(msg.content.startsWith(`<@!${msg.client.user.id}>`)) {
 					msg.content = msg.content.replace(new RegExp(`^<@!${msg.client.user.id}>\\s*`), "");
 				} else {
-            if(!msg.content.match(/{[^\s!]+}/)) return;
-
-            const user = await db.db("Users").collection("emojis").findOne({ user: msg.member.id });
-						if(!user) return;
-						const emojis = user.emojis;
-            const content = await asyncReplace(msg.content, /{([^\s}]+)}/g, async $1 => {
-		            const text = $1.slice(1, -1);
-
-								const emoji = emojis.filter(v => v.name.includes(text))[0];
-		
-								if(!emoji || !emoji.id) return $1;
-
-								const emojiObject = await msg.client.emojis.cache.get(emoji.id);
-
-								if(!emojiObject || !emojiObject.id) return $1;
-
-								return `<${emojiObject.animated ? "a" : ""}:${emojiObject.name}:${emojiObject.id}>`;
-						});
-
-						if(content === msg.content) return;
-
-						setTimeout(() => {
-								if(!msg.channel.messages.resolveId(msg.id)) return;
-
-								msg.delete();
-
-								asUser(msg.channel, msg.member, content, msg.attachments);
-						});
-
+	            if(!msg.content.match(/{[^\s!]+}/)) return;
+	
+	            const user = await db.db("Users").collection("emojis").findOne({ user: msg.member.id });
+				if(!user) return;
+				const emojis = user.emojis;
+	            const content = await asyncReplace(msg.content, /{([^\s}]+)}/g, async $1 => {
+			        const text = $1.slice(1, -1);
+	
+					const emoji = emojis.filter(v => v.name.includes(text))[0];
+			
+					if(!emoji || !emoji.id) return $1;
+	
+					const emojiObject = await msg.client.emojis.cache.get(emoji.id);
+	
+					if(!emojiObject || !emojiObject.id) return $1;
+	
+					return `<${emojiObject.animated ? "a" : ""}:${emojiObject.name}:${emojiObject.id}>`;
+				});
+	
+				if(content === msg.content) return;
+	
+				setTimeout(() => {
+					if(!msg.channel.messages.resolveId(msg.id)) return;
+	
+					msg.delete();
+	
+					asUser(msg.channel, msg.member, content, msg.attachments);
+				});
+	
 				return;
 			}
 

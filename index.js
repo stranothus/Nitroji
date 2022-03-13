@@ -28,7 +28,8 @@ global.db = await new Promise((resolve, reject) => {
 const client = new discord.Client({
     intents: [
         "GUILDS",
-        "GUILD_MESSAGES"
+        "GUILD_MESSAGES",
+		"GUILD_MESSAGE_REACTIONS"
     ],
     partials: [
         "CHANNEL"
