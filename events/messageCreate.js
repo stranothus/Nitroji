@@ -75,13 +75,13 @@ export default {
 	
 				if(content === msg.content) return;
 	
-				setTimeout(() => {
+				setTimeout(async () => {
 					if(!msg.channel.messages.resolveId(msg.id)) return;
+					
+					await asUser(msg.channel, msg.member, content, msg.attachments);
 	
 					msg.delete();
-	
-					asUser(msg.channel, msg.member, content, msg.attachments);
-				});
+				}, 500);
 	
 				return;
 			}
