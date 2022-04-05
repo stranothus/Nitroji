@@ -46,7 +46,7 @@ export default {
 
             index.executeText(msg, args);
         } else {
-            if(!permissions(msg.guild.me.permissions)) return;
+            if(!permissions(msg.guild.me.permissions) || !permissions(msg.guild.me.permissionsIn(msg.channel))) return;
 
             // check if the message is prefixed with the prefix or a bot ping
 				if(msg.content.startsWith(prefix)) {

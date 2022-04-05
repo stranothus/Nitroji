@@ -28,7 +28,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
             return;
         }
 
-        const emojiObject = await interaction.client.emojis.cache.get(emoji.match(/\d{18}/).reverse()[0]);
+        const emojiObject = await interaction.client.emojis.resolve(emoji.match(/\d{18}/).reverse()[0]);
 
         if(!emojiObject || !emojiObject.id) {
             interaction.reply({
@@ -94,7 +94,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
             return;
         }
 
-        const emojiObject = await msg.guild.emojis.cache.get(emoji.match(/\d{18}/).reverse()[0]);
+        const emojiObject = await msg.guild.emojis.resolve(emoji.match(/\d{18}/).reverse()[0]);
 
         if(!emojiObject || !emojiObject.id) {
             msg.reply({
