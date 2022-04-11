@@ -29,8 +29,10 @@ export default {
         if(!msg.guild) {
             // parse arguments
             let args = msg.content.split(/("[^"]*")|\s+/).filter(v => v).map(v => v.replace(/(?:\"$|^\")/g, ""));
-            const command = args[0].toLowerCase();
+            const command = args[0]?.toLowerCase();
             args.splice(0, 1);
+
+			if(!command) return;
 
             // find the command
             let index = (await commands).findIndex(v => v.data.name === command);
