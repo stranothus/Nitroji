@@ -2,17 +2,18 @@
 import discord from "discord.js";
 import dotenv from "dotenv";
 import dirFlat from "./utils/dirFlat.js";
-import { MongoClient } from "mongodb";
+import { MongoClient, ServerApiVersion } from "mongodb";
 import express from "express";
 
  // load env variables
 dotenv.config();
 
 global.db = await new Promise((resolve, reject) => {
-    MongoClient.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rissn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+    MongoClient.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rissn.mongodb.net/Users?retryWrites=true&w=majority`,
         {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
+            useNewUrlParser: true, 
+			useUnifiedTopology: true, 
+			serverApi: ServerApiVersion.v1
         },
         (err, db) => {
             if(err) console.error(err);
@@ -48,7 +49,7 @@ Promise.all(dirFlat("./events").map(async v => {
 })).then(events => events.forEach(event => client[event.type](event.name, event.execute)));
 
  // log the bot in
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN).catch(console.log);
 
 const app = express();
 
